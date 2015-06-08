@@ -6,14 +6,31 @@ except NameError: pass
 
 #-----args-----#
 parser=argparse.ArgumentParser(description='regex operations on files')
-parser.add_argument('path', help='path to look for files in')
-parser.add_argument('text_pattern', help='pattern to search in text')
+parser.add_argument('-p', '--path', default='.', help='path to look for files in')
+parser.add_argument('-tp', '--text_pattern', help='pattern to search in text')
+parser.add_argument('-tpf', '--text_pattern_file', help='file containing pattern to search in text')
 parser.add_argument('-tr', '--text_replace', help='expression to replace pattern with')
+parser.add_argument('-trf', '--text_replace_file', help='file containing expression to replace pattern with')
 parser.add_argument('-fp', '--file_pattern', help='pattern to filter files with')
+parser.add_argument('-fpf', '--file_pattern_file', help='file containing pattern to filter files with')
 parser.add_argument('-c', '--cautious', action='store_true', help='ask for confirmation for file modifications')
 parser.add_argument('-da', '--dotall', action='store_true', help='make . match newlines')
 parser.add_argument('-ml', '--multiline', action='store_true', help='make ^ and $ work on newlines')
 args=parser.parse_args()
+
+#file args
+def regularize(file_name, arg):
+	if file_name:
+		with open(file_name) as file:
+			return file.read()
+	else: return arg
+
+args.text_pattern=regularize(args.text_pattern_file, args.text_pattern)
+args.text_replace=regularize(args.text_replace_file, args.text_replace)
+args.file_pattern=regularize(args.file_pattern_file, args.file_pattern)
+
+#checks
+if not args.text_pattern: raise Exception('text_pattern must be specified')
 
 #process files
 filenames=[]
