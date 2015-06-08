@@ -32,8 +32,7 @@ def separator(): print('='*72)
 
 def section(s):
 	width=10
-	print()
-	print('-'*10+s+'-'*10)
+	print('\n'+'-'*10+s+'-'*10)
 
 def context(text, start, end):
 	line_number=1
