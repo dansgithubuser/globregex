@@ -22,7 +22,7 @@ args=parser.parse_args()
 def regularize(file_name, arg):
 	if file_name:
 		with open(file_name) as file:
-			return file.read()
+			return file.read().splitlines()[0]
 	else: return arg
 
 args.text_pattern=regularize(args.text_pattern_file, args.text_pattern)
