@@ -83,7 +83,11 @@ if args.file_pattern:
 #-----process-----#
 for filename in filenames:
 	#match
-	with open(filename) as file: text=file.read()
+	try:
+		with open(filename) as file: text=file.read()
+	except:
+		print('exception when reading file {}'.format(filename))
+		raise
 	matches=re.finditer(args.text_pattern, text, flags=flags)
 	#print
 	empty=True
